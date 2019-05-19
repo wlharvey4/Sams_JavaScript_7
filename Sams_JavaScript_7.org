@@ -1,0 +1,654 @@
+# -*- mode:org; fill-column:79; -*-
+#+title:Sams Teach Yourself JavaScript
+#+subtitle:In 24 Hours (Seventh Edition)
+#+author:Phil Ballard
+#+date:2019-05-18 20:00
+#+texinfo: @insertcopying
+* Introduction
+:PROPERTIES:
+:unnumbered: t
+:END:
+** About the Author
+Phil Ballard graduated in 1980 with an honors degree in electronics from the
+University of Leeds, England.
+- Research scientist
+- Commercial and managerial roles
+- Software engineering consultant
+** Free Web Edition
+- www.informit.com/register
+** Who This Book Is For
+Beginning to intermediate web designer with some knowledge of HTML and
+JavaScript or other scripting language.
+** Author's Aims
+This series of lessons aims to teach the fundamental skills relevant to all the
+important aspects of JavaScript as it is used today.  Start from basic concepts
+and gradually learn the besyt practices for writing JavaScript programs in
+accordance with current web standards.
+
+For maximum clarity and accessibility, the examples offered here are intended
+to illustrate the key points of each lesson while using as little code
+complexity as possible.
+** Organization
+The book is divided into six parts, gradually increasing in complexity of the
+techniques taught.
+*** First Steps
+- Introduction to the JavaScript language
+- how to write simple scripts using the language's common functions
+- aimed at readers with little or no prior programming knowledge and no
+  knowledge of the JavaScript language
+*** Cooking with Code
+- JavaScript's data types are introduction
+- more sophisticated programming paradigms such as
+  - event handling
+  - program control loops
+  - timers
+  are covered
+*** Understanding JavaScript Objects
+- concentrates on creating and handling objects,
+- including navigating and editing the objects belonging to the DOM
+*** Manipulating Web Pages
+- how JavaScript can interact with HTML and CSS
+*** Some Advanced Techniques
+- learn some specialized programming techniques, including
+  - cookies
+  - regular expressions
+  - modules
+*** Learning the Trade
+- explore aspects of professional JavaScript development, such as
+  - good coding practices
+  - debugging programs
+* Part I Your First Steps with JavaScript
+** Lesson 1---Introducing JavaScript
+{{{heading(Objectives)}}}
+
+- What server-side and client-side programming are
+- How JavaScript can improve your web pages
+- The history of JavaScript
+- The basics of JavaScript
+- The basics of the Document Object Model (DOM)
+- What the window and document objects are
+- How to add content to your web pages using JavaScript
+- How to alert the user wth a dialog box
+
+
+This first lesson describes what JavaScript is, briefly reviews the language's
+origins, and explains the kinds of things it can do to improve your web pages.
+
+*** Web Scripting Fundamentals
+**** Server- Versus Client-Side Programming
+There are two fundamental ways of adding scripts to otherwise static content:
+
+#+CINDEX:server-side scripting
+- You can have the web server execute a script before delivering your page to
+  the user.  Such scripts can define what information is sent to the browser
+  for display to the user.  These scripts are generally run at the web server
+  before generating the requested web page and serving it to the user.  This is
+  called /server-side/ scripting.
+
+  #+CINDEX:client-side scripting
+- Alternatively, the scripts themselves, rather than being run on the server,
+  can be delivered to the user's browser along with the markup code that
+  defines the page.  Such scripts are then executed by the browser and operate
+  on the page's already-delivered content.  The many functions such scripts can
+  perform include animating page sections, reformatting page layouts, allowing
+  the user to drag and drop items within a page, validating user input on
+  forms, redirecting users to other pages, and more more.  This is called
+  /client-side/ scripting.
+
+
+This book is about JavaScript, the most-used language for client-side scripting
+on the Internet.
+
+**** JavaScript in a Nutshell
+A program written in JavaScript can access the elements of a web page and the
+browser window in which it is running; it also can perform actions on those
+elements and create new page elements.  A few of JavaScript's capabilities
+include:
+
+- Opening new windows with a specified size, position, and style (for example,
+  whether the window has borders, menus, tool bars, and so on);
+
+- Providing user-friendly navigation aids such as drop-down menus;
+
+- Validating data entered into a web form to make sure that it is of an
+  acceptable format before the form is submitted to the web server;
+
+- Changing how page elements look and behave when particular events occur, such
+  as the mouse cursor moving over them;
+
+- Detecting and exploiting advanced features supported by the particular
+  browser being used, such as third-party plug-ins or native support for new
+  technologies;
+
+
+Because JavaScript code runs locally inside the user's browser, the page tends
+to respond quickly to JavaScript instructions, enhancing the user's experience
+and making the application seem more like one of the computer's native
+applications rather than simply a web page.  JavaScript can detect and utilize
+certain user actions that HTML can't, such as individual mouse clicks and
+keyboard actions.
+
+Every web browser in common use has support for JavaScript.
+
+**** The =<script>= Tag
+#+CINDEX:@code{<script>} tag
+Whenever a user requests a page, any JavaScript programs that page contains are
+passed to the browser along with page content.
+
+You can include JavaScript statements directly into your HTML code by placing
+thenm between =<script>= and =</script>= tags within HTML:
+
+#+BEGIN_SRC html
+<script>
+    ... JavaScript statements...
+</script>
+#+END_SRC
+
+The examples in this book are written to validate correctly as HTML5, in which
+no obligatory attributes are specified for the =<script>= element (the =type=
+attribute is optional in HTML5 and has been excluded from the examples in this
+book to aid clarity).  However, if you write JavaScript for inclusion in
+HTML4.x or XHTML pages, you should add the =type= attribute to your =<script>=
+elements:
+
+#+BEGIN_SRC html
+<script type="text/javascript">
+    ... JavaScript statements...
+</script>
+#+END_SRC
+
+The examples in this lesson place their JavaScript code within the =<body>=
+section of the HTML document, but JavaScript code can appear elsewhere in the
+document too; you can also use the =<script>= element to load JavaScript code
+saved in an external file.
+
+**** Introducing the DOM
+#+CINDEX:Document Object Model (DOM)
+#+CINDEX:DOM, Document Object Model
+A Document Object Model (DOM) is a conceptual way of visualizing a document and
+its contents.
+
+Each time your browser is asked to load and display a page, it needs to
+interpret (/parse/) the source code contained in the HTML file comprising the
+page.  As part of this parsing process, the browser creates a type of internal
+model known as a DOM representation based on the content of the loaded
+document.  It is this model that the browser then refers to when rendering the
+visiable page.  You can use JavaScript to access and edit the variable parts of
+the DOM representation, at the same time changing the way the user sees and
+interacts with the page in view.
+
+#+CINDEX:W3C DOM Levels
+#+CINDEX:DOM Levels, W3C
+In this book, we concentrate on the W3C's Level 1 and 2 DOM definitions.  If
+you are interested in the details of the variable DOM levels, you can find a
+good overview at https://developer.mozilla.org/en/DOM_Levels.
+
+**** The W3C and Standards Compliance
+#+CINDEX:W3C standards compliance
+#+CINDEX:standars compliance, W3C
+Apart from a few irritating quirks, you can now largely forget about writing
+special code for individual browsers provided that you follow the DOM
+standards.
+
+**** The =window= and =document= Objects
+#+CINDEX:@code{window} object
+#+CINDEX:@code{document} object
+Each time your browser loads and displays a page, it creates in memory an
+internal representation of the page and all its elements, the DOM.  In the DOM,
+elements of your web page have a logical, hierarchical structure, like a tree
+of interconnected parent and child objects.  These objects, and their
+interconnections, form a conceptual model of the web page and the browser that
+contains and displays it.  Each object also has a list of properties that
+describe it, and a number of methods you can use to manipulate those properties
+using JavaScript.
+
+#+CINDEX:parent object
+Right at the top of the hierarchical tree is the browser =window= object.  This
+object is a parent or ancestor to everything else in the DOM representation of
+your page.
+
+#+CINDEX:child object
+The =window= object has various child objects.  The first child object, and the
+one we'll use most in this book, is the =document= object.  Any HTML page
+loaded into the browser creates a =document= object containing all the HTML and
+other resources that go into making up the displayed page.  All this
+information is accessible via JavaScript as a parent-child hierarchy of
+objects, each with its own properties and methods.
+
+{{{heading(The =window= object and some of its children)}}}
+
+- window
+  - document
+  - location
+  - history
+  - navigator
+
+
+#+CINDEX:location object
+#+CINDEX:history object
+#+CINDEX:navigator object
+The other children of the =window= object visible in the above figure are the
+=location= object (containing details of the URL of the currently loaded page),
+the =history= object (containing details of the browser's previously visited
+pages), and the =navigator= object (which stores details of the browser type,
+version, and capabilities).  [[*Lesson 5---DOM Objects and Built-in Objects][See Lesson 5, Dom Objects and Built-in Objects]].
+
+**** Object Notation
+#+CINDEX:object notation
+The notation to represent objects within the tree uses the dot or period:
+: parent.child
+
+The notation can be extended as many times as necessary to represent any object
+in the tree.
+: object1.object2.object3
+
+Since the =<body>= section of your HTML page is represented in the DOM as a
+child element of the =document= object, you would access it like this:
+: window.document.body
+
+The last item in the sequence can also be, instead of another object, a
+property or method of the parent object:
+: object1.object2.property
+: object1.object2.method
+
+For example, suppose that you wanted to access the =title= property of the
+current document, as specified by the HTML =<title>...</title>= tags.  You can
+use:
+: window.document.title
+
+As a shortcut, you can leave off the =window= object and just use =document=:
+: document.title
+
+However, if you have several windows open, or if you are using a frameset,
+separate =window= and =document= objects exist for each window or frame.  To
+refer to one of these documents, you need to use the relevant window name and
+document name belonging to the window or frame in question.
+
+**** Talking to the User
+Two methods, each of which provides a means to talk to the user:
+
+- ~window.alert()~ ::
+
+     #+CINDEX:@code{window.alert()}
+     The =window= object is at the top of the DOM hierarchy and represents the
+     browser window that's displaying your page.  When you call the ~alert()~
+     method, the browser pops open a dialog displaying your message, along with
+     an OK button.  Here's an example:
+     : <script>window.alert("Here is amy message");</script>
+
+     This is our first working example of the dot notation.  Here we are
+     calling the ~alert()~ method of the =window= object, so our object.method
+     notation becomes ~window.alert~.
+
+     In practice, you can leave out the =window= part of the statement.
+     Because the =window= object is the top of the DOM hierarchy (it's
+     sometimes referred to as the /global object/), any methods called without
+     direct reference to their parent object are assumed to belong to
+     =window=.  So:
+     : <script>alert("Here is my message");</script>
+     also works just as well.
+
+- ~document.write()~ ::
+
+     #+CINDEX:@code{document.write()}
+     This method, instead of popping up a dialog, writes characters directly
+     into the DOM of the document:
+     : <script>document.write("Here is another message");</script>
+
+     This method is not used much for serious JavaScript programming.
+
+**** Hello World in JavaScript
+
+#+CINDEX:Hello World in JavaScript
+#+FINDEX:hello.html
+#+caption:"Hello World" in an ~alert()~ Dialog
+#+name:hello-world
+#+BEGIN_SRC html :tangle src/hello.html :mkdirp yes
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hello from JavaScript!</title>
+  </head>
+  <body>
+    <script>
+      alert("Hello World!");
+    </script>
+  </body>
+</html>
+#+END_SRC
+
+Create a document called ~hello.html~ in your text editorm, and enter the code
+above.  Save it to a convenient place on your computer, and then open it with
+your web browser.
+
+To "tangle" this file to disk (export ~hello.html~ to the directory ~src/~),
+type the key combination while your cursor is inside the code block somewhere:
+: C-u C-c C-v t
+
+Note that if the ~src/~ directory does not exist, the "tangle" command will
+create it for you.
+
+[[shell:open ./src/hello.html]]
+
+To open this file in your default browser window after tangling it, type the
+key combination while your cursor is in the shell command somewhere:
+: C-c C-o
+
+**** Reading a Property of the =document= Object
+#+CINDEX:properties
+#+CINDEX:methods
+Objects in the DOM have properties and methods.  Let's try reading one of the
+properties of the =document= object.  Now you're going to use the
+~document.title~ property, which contains the title as defined in the HTML
+=<title>= element of the page.
+
+Edit ~hello.html~ in your text editor, and changethe call to the
+~window.alert()~:
+: alert(document.title);
+
+Notice that the ~document.title~ is NOT now enclosed in quotation marks.
+
+#+CINDEX:Hello World title
+#+FINDEX:hello-title.html
+#+caption:"Hello World" Title in an ~alert()~ Dialog
+#+name:hello-world-title
+#+BEGIN_SRC html :tangle src/hello-title.html :mkdirp yes
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hello from JavaScript!</title>
+  </head>
+  <body>
+    <script>
+      alert(document.title);
+    </script>
+  </body>
+</html>
+#+END_SRC
+
+[[shell:open -a "Google Chrome" ./src/hello-title.html]]
+
+*** Summary
+In this first lesson, you were introduced to the concepts of /server-side/ and
+/client-side/ scripting and read a brief history of JavaScript and the Document
+Object Model.  You had an overview of the sorts of things JavaScript can do to
+enhance your web pages and improve the experience for your users.
+
+Additionally, you learned about the basic structure of the Document Object
+Model and how JavaScript can access particular objects and their properties and
+kuse the methods belonging to those objects.
+
+*** Q&A
+*** Workshop
+*** Exercises
+** Lesson 2---Writing Simple Scripts
+*** Including JavaScript in your Web Page
+*** Writing JavaScript Statements
+*** Using Variables
+*** Working with Operators
+*** Capturing Mouse Events
+*** Summary
+*** Q&A
+*** Workshop
+*** Exercises
+** Lesson 3---Introducing Functions
+*** General Syntax
+*** Calling Functions
+Summary
+*** Q&A
+*** Workshop
+*** Exercises
+** Lesson 4---More Fun with Functions
+*** Scope of Variables
+*** Arrow Functions
+*** Setting Default Parameters
+*** Summary
+*** Q&A
+*** Workshop
+*** Exercise
+** Lesson 5---DOM Objects and Built-in Objects
+*** Interacting with the User
+*** Selecting Elements by their ID
+*** Accessing Browser History
+*** Using the =location= Object
+*** Using Dates and Times
+*** Summary
+*** Q&A
+*** Workshop
+*** Exercises
+* Part II Cooking with Code
+** Dealing with Numbers
+*** Numbers
+*** Global Methods
+*** The =Number= Object
+*** The ~Number()~ Function
+*** Boolean Values
+*** The Values =null= and =undefined=
+*** Summary
+*** Q&A
+*** Workshop
+*** Exercise
+** Working with Character Strings
+*** Strings
+*** Template Strings
+*** Summary
+*** Q&A
+*** Workshop
+*** Exercise
+** Storing Data in Arrays
+*** Arrays
+*** How to Iterate Through Arrays
+*** The Three-Dots Operator
+*** Summary
+*** Q&A
+*** Workshop
+*** Exercises
+** Handling Events in JavaScript
+*** Types of Events
+*** Event Handlers
+*** The =event= Object
+*** Summary
+*** Q&A
+*** Workshop
+*** Exercises
+** Controlling Program Flow
+*** Conditional Statements
+*** Loops and Control Structures
+*** How to Set and User Timers
+*** Summary
+*** Q&A
+*** Workshop
+*** Exercises
+* Part III Understanding JavaScript Objects
+** Introducing Ojbect-Oriented Programming
+*** What is Object-Oriented Programming?
+*** Object Creation
+*** Extending and Inheriting Objects Using =Prototype=
+*** Encapsulation
+*** Summary
+*** Q&A
+*** Workshop
+*** Exercises
+** Learing More About Objects
+*** Classes
+*** Object Inheritance
+*** Feature Detection
+*** Summary
+*** Q&A
+*** Workshop
+*** Exercises
+** Scripting with the DOM
+*** DOM Nodes
+*** Selecting Elements with =getElementsByTagName()=
+*** How to Read an Element's Attributes
+*** Mozilla's DOM Inspector
+*** Summary
+*** Q&A
+*** Workshop
+*** Exercises
+** Mett JSON
+*** What is JSON?
+*** How to Access JSON Data
+*** Data Serialization with JSON
+*** JSON Data Types
+*** How to Simulate Associative Arrays
+*** How to Create Objects with JSON
+*** JSON Security
+*** Summary
+*** Q&A
+*** Workshop
+*** Exercises
+* Part IV Manipulating Web Pages with JavaScript
+** Programming HTML with JavaScript
+*** Markup for HTML5
+*** Some Important Elements
+*** Drag and Drop
+*** Local Storage
+*** How to Work with Local Files
+*** Summary
+*** Q&A
+*** Workshop
+*** Exercises
+** Manipulating CSS in JavaScript
+*** A Ten-Minute CSS Primer
+*** The DOM =style= Property
+*** How to Access Classes Using =className=
+*** The DOM =styleSheets= Object
+*** Summary
+*** Q&A
+*** Workshop
+*** Exercises
+** More Advanced Control of CSS
+*** Vendor-Specific Properties and Prefixes
+*** CSS3 Borders
+*** CSS3 Backgrounds
+*** CSS3 Gradients
+*** CSS3 Text Effects
+*** CSS3 Transitions Transformations and Animations
+*** How to Reference CSS3 Properties in JavaScript
+*** How to Set CSS3 Properties with Vendor Prefixes
+*** Summary
+*** Q&A
+*** Workshop
+*** Exercises
+* Part V Some Advanced Techniques for Your JavaScript Toolkit
+** Reading and Writing Cookies
+*** What are Cookies
+*** Using the =document.cookie= Property
+*** Reviewing Cookie Ingredients
+*** Writing a Cookie
+*** Writing a Function to Write a Cookie
+*** Reading a Cookie
+*** Deleting a Cookie
+*** Setting Multiple Values in a Single Cookie
+*** Summary
+*** Q&A
+*** Workshop
+*** Exercises
+** Matching Patterns Using Regular Expressions
+*** Creating a Regular Experession
+*** Summary
+*** Q&A
+*** Workshop
+*** Exercises
+** Understanding and Using Closures
+*** Revisiting Scope
+*** Returning a Function From a Function
+*** Achieving Closure
+*** Summary
+*** Q&A
+*** Workshop
+*** Exercise
+** Organizing Code with Modules
+*** Why Use Modules
+*** Module Basics
+*** Exporting
+*** Importing
+*** Summary
+*** Q&A
+*** Workshop
+*** Exercise
+* Part VI Learning the Trade
+** Good Coding Practice
+*** Don't Oversue JavaScript
+*** How to Write Readable and Maintainable Code
+*** Graceful Degradation
+*** Professive Enhancement
+*** Unobtrusive JavaScript
+*** Feature Detection
+*** How to Handle Errors Well
+*** Summary
+*** Q&A
+*** Workshop
+*** Exercises
+** Debugging Your Code
+*** An Introduction to Debugging
+*** More Advanced Debugging
+*** Summary
+*** Q&A
+*** Workshop
+*** Exercise
+** Where to Go Next
+*** Why Use a Library
+*** What Sorts of Things Can Libraries Do
+*** Some Popular Libraries and Frameworks
+*** A Closer Look at jQuery
+*** The jQuery UI
+*** An Introduction to Ajax
+*** How to Use jQuery to Implement Ajax
+*** A Brief Look at Node.js
+*** Summary
+*** Q&A
+*** Workshop
+*** Exercises
+* Tools for JavaScript Develpment
+:PROPERTIES:
+:appendix: t
+:END:
+** Editors
+** Validators
+** Verifying and Testing Tools
+* Concept Index
+:PROPERTIES:
+:index:    cp
+:unnumbered: t
+:END:
+* File Index
+:PROPERTIES:
+:index:    fn
+:unnumbered: t
+:END:
+* Copying
+:PROPERTIES:
+:copying:  t
+:END:
+Sams Teach Yourself JavaScript in 24 Hours (Seventh Edition) by Phil
+Ballard \copy 2019
+
+Outline \copy 2019 by Pinecone062
+* Tangling
+:PROPERTIES:
+:appendix: t
+:END:
+#+BEGIN_SRC emacs-lisp :results output silent :exports results
+(org-babel-tangle-file "Sams_JavaScript_7.org")
+#+END_SRC
+* Export Settings                                                  :noexport:
+** Options
+#+OPTIONS: H:4
+** Texinfo
+#+TEXINFO_FILENAME:sams_javascript_7.info
+#+TEXINFO_CLASS: info
+#+TEXINFO_HEADER:
+#+TEXINFO_POST_HEADER:
+#+TEXINFO_DIR_CATEGORY:JavaScript
+#+TEXINFO_DIR_TITLE:Sams Teach Yourself JavaScript 7 Ed
+#+TEXINFO_DIR_DESC:Teach yourself JavaScript in 24 hours
+#+TEXINFO_PRINTED_TITLE:Sams Teach Yourself JavaScript in 24 Hours
+** Macro Definitions
+#+macro: heading @@texinfo:@heading @@$1
+#+macro: subheading @@texinfo:@subheading @@$1
+* Local Variables                                                  :noexport:
+# Local Variables:
+# time-stamp-pattern:"8/^\\#\\+date:%:y-%02m-%02d %02H:%02M$"
+# End:
