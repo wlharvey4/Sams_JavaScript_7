@@ -2,7 +2,8 @@
 #+title:Sams Teach Yourself JavaScript
 #+subtitle:In 24 Hours (Seventh Edition)
 #+author:Phil Ballard
-#+date:2019-05-18 20:00
+#+date:2019-06-14 19:42
+#+macro:version Version 0.0.2
 #+texinfo: @insertcopying
 * Introduction
 :PROPERTIES:
@@ -382,11 +383,194 @@ kuse the methods belonging to those objects.
 *** Workshop
 *** Exercises
 ** Lesson 2---Writing Simple Scripts
+What you will learn in this lesson:
+
+- Various ways to include JavaScript in your web pages
+- The basic syntax of JavaScript Statements
+- How to declare and use variables
+- Ways to use mathematical operators
+- How to comment your code
+- How to capture mouse events
+
+
+JavaScript is a scripting language capable of making web pages more
+interactive.  In this lesson you learn more about how to add JavaScript to your
+web pages and then about some of the fundamental syntax of JavaScript programs
+such as:
+- statement
+- variables
+- operators
+- comments
+
 *** Including JavaScript in your Web Page
+Two basic methods associate JavaScript code with your HTML page, both of which
+use the ~<script></script>~ element [[*The =<script>= Tag][introduced in Lesson 1]].
+
+One method is to include the JavaScript statements directly into the HTML file:
+
+#+begin_src html
+<script>
+   ... JavaScript statements here ...
+</script>
+#+end_src
+
+A second, preferable way is to save your JavaScript into a separate file and
+use the ~<script>~ element to include that file by name using the =src=
+attribute:
+
+#+begin_src html
+<script src="/path/to/mycode.js"></script>
+<script src="http://www.example.com/path/to/mycode.js"></script>
+#+end_src
+
+Advantages of the second method:
+
+- When the JavaScript code is updated the updates are immediately available to
+  any page using that same JavaScript file.
+
+- The code for the HTML page is kept cleaner and is easier to read and maintain.
+
+- Performance is slightly improved because your browser caches the included
+  file, therefore storing a local copy in memory until the next time it is
+  needed by this or another page.
+
+
+#+cindex:simple web page
+Here is a simple web page with a file of JavaScript code included in the
+~<body>~ section.  JavaScript can be placed in either the head or body of the
+HTML page.  It is more common---and generally recommended---for JavaScript code
+to be placed in the head of the page, where it provides a number of functions
+that can be called from elsewhere in the document.
+
+#+caption:An HTML Document with a JavaScript File Included
+#+name:simple-page
+#+begin_src html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>A Simple Page</title>
+  </head>
+  <body>
+    <p>Some content ... </p>
+    <script src="mycode.js"></script>
+  </body>
+</html>
+#+end_src
+
+When JavaScript code is added into the /body/ of the document, the code
+statements are interpreted and executed as they are encountered, while the page
+is being rendered.  Therefore, JavaScript instructions should not try to access
+DOM elements that haven't yet been defined.  Instead, JavaScript statements
+must be included /after/ the HTML that defines such items.
+
+After the code has been read and executed, page rendering continues until the
+page is complete.
+
+You can use as many scripts elements in your page as you need.
+
 *** Writing JavaScript Statements
 *** Using Variables
 *** Working with Operators
 *** Capturing Mouse Events
+Let's look at some of the ways to detect a user's mouse actions using
+JavaScript.
+
+#+cindex:event handlers
+JavaScript deals with events by using so-called /event handlers/.  We are going
+to investigate three of these:
+- =onClick=
+- =onMouseOver=
+- =onMouseOut=
+
+**** The =onClick= Event Handler
+#+cindex:@code{onClick} event handler
+The =onClick= event handler can be applied to nearly all HTML elements visible
+on a page.  One way you can implement it is to add one more attribute to the
+HTML element:
+
+: onclick="... some JavaScript code ..."
+
+#+caption:Using the =onClick= Event Handler
+#+name:onClick-demo
+#+begin_src html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>onClick Demo</title>
+  </head>
+  <body>
+    <input type="button" onclick="alert('You clicked the button!')" value="Click Me" />
+  </body>
+</html>
+#+end_src
+
+The HTML code adds a button to the ~<body>~ element of the page and supplies
+that button with an =onclick= attribute.  The value given to the =onclick=
+attribute is the JavaScript code you want to run when the HTML element (botton
+here) is clicked.  When the user clicks on the button, the =onclick= event is
+activated (the event has been "fired") and the JavaScript statements listed in
+the value of the attribute are executed.
+
+Note that the event handler is called =onClick= but is is written in code as
+=onclick=.  This convention has arisen because, although HTML is not case
+sensitive, XHTML is case sensitive and requires all HTML elements and
+attribute names to be written in lowercase.
+
+**** The =onMouseOver= and =onMouseOut= Event Handlers
+When you simply want to detect where the mouse pointer is on the screen with
+reference to a particular page element, =onMouseOver= and =onMouseOut= can
+help.
+
+#+cindex:@code{onMouseOver} event
+#+cindex:@code{onMoueOut} event
+The =onMouseOver= event is fired when the user's mouse cursor enters the region
+of the screen occupied by the element in question.  The =onMouseOut= event is
+fired when the cursor leaves that some region.
+
+#+caption:Using =onMouseOver=
+#+name:using-onMouseOver-demo
+#+begin_src html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>onMouseOver Demo</title>
+  </head>
+  <body>
+    <img src="image1.png" alt="image 1" onmnouseover="alert('You've entered the image!')" />
+  </body>
+</html>
+#+end_src
+
+**** Creating an Image Rollover
+You can use the =onMouseOver= and =onMouseOut= events to change how an image
+appears while the mouse pointer is above it.  To achieve this, you can use
+=onMouseOver= to change the =src= attribute of the HTML ~<img>~ element as the
+mouse cursor enters and =onMouseOut= to change it back as the mouse leaves.
+
+#+caption:An Image Rollover Using =onMouseOver= and =onMouseOut=
+#+name:image-rollover-demo
+#+begin_src html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>OnMouseOver Demeo
+  </head>
+  <body>
+    <img src="tick.gif" alt="tick" onmouseover="this.src='tick2.gif';"
+         onmouseout="this.src='tick.gif';" />
+  </body>
+</html>
+#+end_src
+
+Within the JavaScript statements for =onMouseOver= and =onMouseOut= is the
+keyword ~this~.  When you use ~this~ within an event handler added via an
+attribute of an HTML element, ~this~ refers to the HTML element itself; in this
+case, you read it as "this image," and ~this.src~ refers (using the "dot"
+notation) to the ~src~ property of this image object.
+
+At one time image rollovers were regularly done this way, but these days they
+can be achieved much more efficiently using CSS.
+
 *** Summary
 *** Q&A
 *** Workshop
