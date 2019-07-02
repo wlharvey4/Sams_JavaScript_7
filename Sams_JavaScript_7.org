@@ -2,8 +2,8 @@
 #+title:Sams Teach Yourself JavaScript
 #+subtitle:In 24 Hours (Seventh Edition)
 #+author:Phil Ballard
-#+date:2019-06-14 19:42
-#+macro:version Version 0.0.2
+#+date:2019-07-02 00:42
+#+macro:version Version 0.0.3
 #+texinfo: @insertcopying
 * Introduction
 :PROPERTIES:
@@ -578,7 +578,24 @@ can be achieved much more efficiently using CSS.
 ** Lesson 3---Introducing Functions
 *** General Syntax
 *** Calling Functions
-Summary
+*** Putting JavaScript in the Page =<head>=
+#+name:javascript-in-the-page-head
+#+begin_src html :tangle src/lesson_03/hello.html :mkdirp yes
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <title>Document</title>
+    <script>function sayHello() {
+        alert("Hello");
+      }
+    </script>
+  </head>
+  <body>
+    <input name="" type="button" value="" onclick="sayHello()"/>
+  </body>
+</html>
+#+end_src
 *** Q&A
 *** Workshop
 *** Exercises
